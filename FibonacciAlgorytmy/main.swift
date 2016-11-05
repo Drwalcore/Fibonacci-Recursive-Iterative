@@ -8,19 +8,22 @@
 //  Created by Michał Czerniakowski on 04.11.2016.
 //  Copyright © 2016 Michał Czerniakowski. All rights reserved.
 
+
 import Foundation
 
 print( "Fibonacci Times\n\n" )
-print ("Enter Integer!")
+print ("Enter Integer!\n")
+
 let userInput = readLine()
 var selectedInt = Int(userInput!)
 
 
 func fiboIter(_ n: Int) -> Int{
    
-    var fn_0:Int = 0;
-    var fn_1:Int = 1;
-   
+    var fn_0:Int = 0
+    var fn_1:Int = 1
+    var fn: Int = 0
+    
     if n == 0 || n == 1 {
     
     return n
@@ -31,31 +34,32 @@ func fiboIter(_ n: Int) -> Int{
     
     for _ in 2...n {
     
-        let fn = fn_0
-        fn_0 =  fn_1 + fn_0
+        fn = fn_1 + fn_0
+        fn_0 =  fn_1
         fn_1 = fn
         
         }
     }
     
-    return fn_0
+    return fn
 }
+
 
 func fiboRecu(_ n: Int) -> Int{
 
-    if n==1 || n == 2 {
+    if n == 0 || n == 1 {
         
-        return 1
+        return n
         
-    } else {
+    } else if n > 1 {
         
         return fiboRecu(n - 1) + fiboRecu(n - 2)
     }
 
-    
+    return n
 }
 
-print( "Fibonacci Sequence - Iterative\n" )
+print( "\nFibonacci Sequence - Iterative Method\n" )
 
 
 let startIter = DispatchTime.now()
@@ -64,8 +68,10 @@ let startIter = DispatchTime.now()
         
         for i in 1 ... selectedInt {
             
-            let fibonacci = fiboIter(selectedInt)
+            let fibonacci = fiboIter(i)
+            
             print( "Fibonacci of \(i) is \(fibonacci)" )
+            
         }
 
 }
@@ -73,7 +79,7 @@ let startIter = DispatchTime.now()
 let endIter = DispatchTime.now()
 
 
-print( "Fibonacci Sequence - Recursive\n" )
+print( "\nFibonacci Sequence - Recursive Method\n" )
 
 let startRecu = DispatchTime.now()
 
@@ -81,7 +87,8 @@ let startRecu = DispatchTime.now()
     
         for i in 1 ... selectedInt {
             
-            let fibonacci = fiboRecu(selectedInt)
+            let fibonacci = fiboRecu(i)
+            
             print( "Fibonacci of \(i) is \(fibonacci)" )
         }
 
@@ -92,8 +99,9 @@ let endRecu = DispatchTime.now()
 
 
 let nanoIter = endIter.uptimeNanoseconds - startIter.uptimeNanoseconds
-print ("Iteration has taken \(nanoIter) nanoseconds to complete")
+let secIter = nanoIter/1000000000
+print ("\nIteration has taken \(secIter) seconds = \(nanoIter) nanoseconds to complete")
 
 let nanoRecu = endRecu.uptimeNanoseconds - startRecu.uptimeNanoseconds
-print ("Recursive has taken \(nanoRecu) nanoseconds to complete")
-
+let secRecu = nanoRecu/1000000000
+print ("\nRecursive has taken \(secRecu) seconds to complete\n")
